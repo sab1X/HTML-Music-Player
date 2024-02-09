@@ -1,0 +1,88 @@
+<html>
+<head>
+    <title>SABIX Music player</title>
+    <style>
+        body {
+            background-color: #111;
+            color: white;
+            font-family: Arial, sans-serif;
+            text-align: center;
+            margin: 0;
+            padding: 0;
+        }
+        h1 {
+            font-size: 24px;
+            margin-bottom: 20px;
+        }
+        input[type="file"] {
+            display: none;
+        }
+        label {
+            background-color: #4CAF50;
+            color: white;
+            padding: 10px 20px;
+            cursor: pointer;
+        }
+        label:hover {
+            background-color: #45A049;
+        }
+        audio {
+            width: 100%;
+            max-width: 400px;
+            margin: 20px auto;
+        }
+        ul {
+            list-style-type: none;
+            padding: 0;
+        }
+        li {
+            background-color: #444;
+            color: white;
+            padding: 10px;
+            margin: 5px 0;
+            cursor: pointer;
+        }
+        li:hover {
+            background-color: #333;
+        }
+    </style>
+</head>
+<body>
+    <h1>SABIX Music player</h1>
+
+    <input type="file" accept=".mp3" id="audioFileInput" multiple />
+    <label for="audioFileInput">Add Audio Files</label>
+    
+    <!-- Audio player and playlist -->
+    <audio controls id="audioPlayer">
+        Your browser does not support the audio element.
+    </audio>
+    <ul id="playlist"></ul>
+
+    <!-- JavaScript to handle playlist and file selection -->
+    <script>
+        const audioFileInput = document.getElementById('audioFileInput');
+        const audioPlayer = document.getElementById('audioPlayer');
+        const playlist = document.getElementById('playlist');
+
+        audioFileInput.addEventListener('change', function() {
+            const files = audioFileInput.files;
+
+            for (let i = 0; i < files.length; i++) {
+                const file = files[i];
+                const listItem = document.createElement('li');
+                listItem.textContent = file.name;
+                listItem.addEventListener('click', function() {
+                    audioPlayer.src = URL.createObjectURL(file);
+                    audioPlayer.load();
+                    audioPlayer.play();
+                });
+                playlist.appendChild(listItem);
+            }
+
+            // Clear the file input to allow for more selections
+            audioFileInput.value = '';
+        });
+    </script>
+</body>
+</html>
